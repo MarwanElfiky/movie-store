@@ -127,6 +127,34 @@ void add_Customer(){
 
 void add_Movie() {
 
+    cout << "Enter movie name" << endl;
+    getline(cin, movies[movies_count].name);
+
+    string choice;
+    cout << "Is the movie rented ?" << endl;
+    if (choice == "yes") {
+        movies[movies_count].is_Rented = TRUE;
+        cout << "Enter renting count" << endl;
+        cin >> movies[movies_count].renting_Count;
+        cout << "Enter due data\nday: " << endl;
+        cin >> movies[movies_count].due_Date.day;
+        cout << "Enter due data\nmonth: " << endl;
+        cin >> movies[movies_count].due_Date.month;
+        cout << "Enter due data\nyear: " << endl;
+        cin >> movies[movies_count].due_Date.year;
+
+        cout << "Enter returning data\nday: " << endl;
+        cin >> movies[movies_count].due_Date.day;
+        cout << "Enter returning data\nmonth: " << endl;
+        cin >> movies[movies_count].due_Date.month;
+        cout << "Enter returning data\nyear: " << endl;
+        cin >> movies[movies_count].return_Date.year;
+
+
+    }
+    else
+        movies[movies_count].is_Rented = FALSE;
+
 }
 
 
