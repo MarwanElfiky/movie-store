@@ -134,8 +134,10 @@ void add_Movie() {
     cout << "Is the movie rented ?" << endl;
     if (choice == "yes") {
         movies[movies_count].is_Rented = TRUE;
+
         cout << "Enter renting count" << endl;
         cin >> movies[movies_count].renting_Count;
+
         cout << "Enter due data\nday: " << endl;
         cin >> movies[movies_count].due_Date.day;
         cout << "Enter due data\nmonth: " << endl;
@@ -144,17 +146,21 @@ void add_Movie() {
         cin >> movies[movies_count].due_Date.year;
 
         cout << "Enter returning data\nday: " << endl;
-        cin >> movies[movies_count].due_Date.day;
+        cin >> movies[movies_count].return_Date.day;
         cout << "Enter returning data\nmonth: " << endl;
-        cin >> movies[movies_count].due_Date.month;
+        cin >> movies[movies_count].return_Date.month;
         cout << "Enter returning data\nyear: " << endl;
         cin >> movies[movies_count].return_Date.year;
 
+        cout << "Enter renting fee" << endl;
+        cin >> movies[movies_count].fees;
 
+        cout << "Enter overdue fees" << endl;
+        cin >> movies[movies_count].Overdue_Fees;
     }
     else
         movies[movies_count].is_Rented = FALSE;
-
+    movies_count++;
 }
 
 
