@@ -1,12 +1,16 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <utility>
+#include <windows.h>
 using namespace std;
 
 struct customer {
 	int id;
 	string name, rented_Movies[6];
+};
+
+struct date {
+	int day, month, year;
 };
 
 struct movie {
@@ -16,10 +20,11 @@ struct movie {
 	date return_Date, due_Date;
 };
 
-struct date {
-	int day, month, year;
-};
+customer customers[5];
+movie movies[10];
 
+int customer_count = 0;
+int movies_count = 0;
 
 void main_menu();
 
@@ -95,7 +100,29 @@ void main_menu() {
 
 
 void add_Customer(){
+    char answer;
+    cin.ignore();
 
+    cout << "Enter customer name" << endl;
+    getline(cin, customers[customer_count].name);
+
+    cout << "Enter customer ID" << endl;
+    cin >> customers[customer_count].id;
+
+    int i = 0;
+    do {
+        cout << "Is there any rented movies ?\ny/n" << endl;
+        cin >> answer;
+        cin.ignore();
+        if (answer == 'n') break;
+        cout << "Enter book number : " << i + 1 << endl;
+        getline(cin, customers[customer_count].rented_Movies[i]);
+        i++;
+    } while (i < 6);
+    cout << "DONE!" << endl;
+    Sleep(2000);
+    customer_count++;
+    main_menu();
 }
 
 void add_Movie() {

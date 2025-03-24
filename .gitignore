@@ -1,1 +1,25 @@
-".vs/ x64/ Debug/ Release/ *.exe *.obj *.ilk *.pdb *.idb *.aps *.suo *.ncb *.user *.log *.tlog *.lastbuildstate" 
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.user
+*.VC.db
+*.ipch/
+*.pdb
+*.obj
+*.idb
+*.tlog
+*.cache
+*.ilk
+*.log
+*.o
+*.pch
+
+# Ignore build and output directories
+x64/
+Debug/
+Release/
+movie-store/x64/
+
+# Ignore specific unwanted files
+*.vsidx
+*.json
