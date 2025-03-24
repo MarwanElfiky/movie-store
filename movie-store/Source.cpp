@@ -98,7 +98,7 @@ void add_Customer(){
 
 }
 
-void add_Movies() {
+void add_Movie() {
 
 }
 
