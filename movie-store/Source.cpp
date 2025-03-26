@@ -23,11 +23,14 @@ struct movie {
 customer customers[5];
 movie movies[10];
 
+const int months[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 int customer_count = 0;
 int movies_count = 0;
 
 void main_menu();
 
+//main functions
 void add_Customer();
 void add_Movie();
 void list_Customers();
@@ -38,7 +41,9 @@ void return_RentedMovies();//should calculate the final fees
 void overdue_Accounts();
 void display_MostRented();
 
+// helper functions
 date getCurrentDate();
+date validate_date(int day, int month, int year);
 
 int main() {
 	main_menu();
@@ -245,10 +250,10 @@ void rent_Movies() {
                 cout << "Enter the customer you want to rent the movie to" << endl;
                 getline(cin, customer_name);
                 
-                for (int j = 0; j < customer_count; j++) {
+                for (int j = 0; j < customer_count; j++) { // loop searching for customer in the system
                     if (customers[j].name == customer_name) { // customer found in the system ----> rent the movie to this customer
 
-                        for (int k = 0; k < 6; k++) {
+                        for (int k = 0; k < 6; k++) { // loop over rented movies array in customer
 
                             if (customers[j].rented_Movies[k] == "") {
                                 customers[j].rented_Movies[k] = movie_name;
@@ -261,6 +266,11 @@ void rent_Movies() {
                             }
                         }
                     }
+                    else {
+                        cout << "Can't find the customer with the name provided\nPlease try again !" << endl;
+                        break;
+                    }
+                    break;
                 }
                 date today_date = getCurrentDate();
                 movies[i].due_Date.day = today_date.day + 7;
@@ -271,6 +281,7 @@ void rent_Movies() {
                 movies[i].is_Rented = true;
                 movies[i].renting_Count++;
                 cout << "Movie succesfully rented" << endl;
+                cout << "Due Date :" << movies[i].due_Date.day << "-" << movies[i].due_Date.month << "-" << movies[i].due_Date.year << endl;
                 Sleep(2000);
                 break;
             }
@@ -300,10 +311,21 @@ void display_MostRented() {
 date getCurrentDate() {
     time_t now = time(nullptr);
     tm localTime;
-    localtime_s(&localTime, &now); // Safe function
+    localtime_s(&localTime, &now);
 
     int year = localTime.tm_year + 1900;
     int month = localTime.tm_mon + 1;
     int day = localTime.tm_mday;
+    return { day, month, year };
+}
+
+date validate_date(int day, int month, int year) {
+    for (int i = 0; i < 11; i++) {
+        if (month == i) {
+            if (day > months[i]) {
+
+            }
+        }
+    }
     return { day, month, year };
 }
