@@ -280,8 +280,9 @@ void rent_Movies() {
                 movies[i].Overdue_Fees = 200;
                 movies[i].is_Rented = true;
                 movies[i].renting_Count++;
+                date validated_date = validate_date(movies[i].due_Date.day, movies[i].due_Date.month, movies[i].due_Date.year);
                 cout << "Movie succesfully rented" << endl;
-                cout << "Due Date :" << movies[i].due_Date.day << "-" << movies[i].due_Date.month << "-" << movies[i].due_Date.year << endl;
+                cout << "Due Date :" << validated_date.day << "-" << validated_date.month << "-" << validated_date.year << endl;
                 Sleep(2000);
                 break;
             }
@@ -320,10 +321,15 @@ date getCurrentDate() {
 }
 
 date validate_date(int day, int month, int year) {
-    for (int i = 0; i < 11; i++) {
-        if (month == i) {
+    for (int i = 0; i < 12; i++) {
+        if (month == (i + 1)) {
             if (day > months[i]) {
-
+                cout << i << endl;
+                cout << months[i] << endl;
+                int diffrence = day - months[i];
+                month++;
+                day = diffrence;
+                break;
             }
         }
     }
