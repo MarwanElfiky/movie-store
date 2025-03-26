@@ -126,12 +126,14 @@ void add_Customer(){
 }
 
 void add_Movie() {
+    cin.ignore();
 
     cout << "Enter movie name" << endl;
     getline(cin, movies[movies_count].name);
 
     string choice;
     cout << "Is the movie rented ?" << endl;
+    cin >> choice;
     if (choice == "yes") {
         movies[movies_count].is_Rented = TRUE;
 
@@ -165,15 +167,35 @@ void add_Movie() {
 
 
 void list_Customers(){
-
+    for (int i = 0; i < customer_count; i++) {
+        cout << "Customer " << i + 1 << ":" << endl;
+        cout << customers[i].name << endl;
+        cout << customers[i].id << endl;
+        cout << customers[i].rented_Movies << endl;
+    }
 }
 
 void list_allMovies() {
+    for (int i = 0; i < movies_count; i++) {
+        cout << "Movie " << i + 1 << ":" << endl;
+        cout << "Name : " << movies[i].name << endl;
+        cout << "Rented times : " << movies[i].renting_Count << endl;
+    }
 
 }
 
 void list_RentedMovies() {
-
+    for (int i = 0; i < movies_count; i++) {
+        if (movies[i].is_Rented == true) {
+            cout << "Movie " << i + 1 << ":" << endl;
+            cout << "Name : " << movies[i].name << endl;
+            cout << "Rented times : " << movies[i].renting_Count << endl;
+        }
+        else {
+            cout << "No movie rented" << endl;
+            break;
+        }
+    }
 }
 
 void rent_Movies() {
