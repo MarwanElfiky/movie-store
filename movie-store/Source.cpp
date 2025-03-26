@@ -165,6 +165,7 @@ void add_Movie() {
     else
         movies[movies_count].is_Rented = FALSE;
     movies_count++;
+    main_menu();
 }
 
 
@@ -234,7 +235,7 @@ void rent_Movies() {
 
             else { // movie found at position i and not rented --> now rent it
 
-                if (customer_count < 0) { // check if there are NO customers already
+                if (customer_count == 0) { // check if there are NO customers already
                     cout << "No customers found in the system please register customers first !" << endl;
                     Sleep(2000);
                     break;
@@ -246,12 +247,14 @@ void rent_Movies() {
                 
                 for (int j = 0; j < customer_count; j++) {
                     if (customers[j].name == customer_name) { // customer found in the system ----> rent the movie to this customer
+
                         for (int k = 0; k < 6; k++) {
+
                             if (customers[j].rented_Movies[k] == "") {
                                 customers[j].rented_Movies[k] = movie_name;
-                                cout << "Succefully Added" << endl;
                                 break;
                             }
+
                             else {
                                 cout << "Can't rent any movie to this customer as he reached maximum rented please return any movie first" << endl;
                                 break;
