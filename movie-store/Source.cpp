@@ -102,7 +102,7 @@ void main_menu() {
         display_MostRented();
         break;
     case 0:
-        break;
+        exit(0);
     default:
         cout << "choose one of the options above please" << endl;
         break;
@@ -131,8 +131,8 @@ void add_Customer(){
         i++;
     } while (i < 6);*/
     cout << "DONE!" << endl;
-    Sleep(2000);
     customer_count++;
+    Sleep(2000);
     main_menu();
 }
 
@@ -187,37 +187,54 @@ void list_allMovies() {
             cout << "Rented times : " << movies[i].renting_Count << endl;
         }
         Sleep(2000);
+        main_menu();
     }
     else {
         cout << "No movies found" << endl;
         Sleep(2000);
+        main_menu();
     }
-    main_menu();
 }
 
 void list_RentedMovies() {
+    int movies_rented = 0;
     if (movies_count > 0) {
         for (int i = 0; i < movies_count; i++) {
             if (movies[i].is_Rented == true) {
-                cout << "Movie " << i + 1 << ":" << endl;
-                cout << "Name : " << movies[i].name << endl;
-                cout << "Rented times : " << movies[i].renting_Count << endl;
+                cout << "Movie(s) rented :" << ":" << endl;
+                cout << i+1 << " - Name : " << movies[i].name << endl;
+                cout << "  - Rented times : " << movies[i].renting_Count << endl;
+                movies_rented++;
             }
-            else {
-                cout << "No movies rented" << endl;
-                Sleep(2000);
-                break;
-            }
+        }
+        if (movies_rented == 0) {
+            cout << "No Movies Rented" << endl;
+            Sleep(2000);
+            main_menu();
         }
     }
     else {
-        cout << "No movies rented" << endl;
+        cout << "No movies found" << endl;
         Sleep(2000);
+        main_menu();
     }
+    Sleep(2000);
     main_menu();
 }
 
 void rent_Movies() {
+    if (movies_count == 0) {
+        // movie not found
+        cout << "No Movies found\nRedirecting to main menu" << endl;
+        Sleep(2000);
+        main_menu();
+    }
+    if (customer_count == 0) { // check if there are NO customers already
+        cout << "No customers found in the system please register customers first !" << endl;
+        Sleep(2000);
+        main_menu();
+    }
+
     string movie_name;
     cin.ignore();
     cout << "Enter the movie name you want to rent" << endl;
@@ -232,13 +249,7 @@ void rent_Movies() {
                 main_menu();
             }
 
-            else { // movie found at position i and not rented --> now rent it
-
-                if (customer_count == 0) { // check if there are NO customers already
-                    cout << "No customers found in the system please register customers first !" << endl;
-                    Sleep(2000);
-                    main_menu();
-                }
+            else { // movie Not rented, Found at position i + 1 --> now rent it
 
                 string customer_name;
                 cout << "Enter the customer you want to rent the movie to" << endl;
@@ -251,41 +262,30 @@ void rent_Movies() {
 
                             if (customers[j].rented_Movies[k] == "") {
                                 customers[j].rented_Movies[k] = movie_name; // ---------------------- linked movie to the customer rented_Movies array ------------------------
-                                main_menu();
-                            }
-
-                            else {
-                                cout << "Can't rent any movie to this customer as he reached maximum rented please return any movie first" << endl;
+                                date today_date = getCurrentDate();
+                                movies[i].due_Date.day = today_date.day + 7;
+                                movies[i].due_Date.month = today_date.month;
+                                movies[i].due_Date.year = today_date.year;
+                                movies[i].is_Rented = true;
+                                movies[i].renting_Count++;
+                                date validated_date = validate_DueDate(movies[i].due_Date.day, movies[i].due_Date.month, movies[i].due_Date.year);
+                                cout << "Movie succesfully rented" << endl;
+                                cout << "Due Date :" << validated_date.day << "-" << validated_date.month << "-" << validated_date.year << endl;
                                 Sleep(2000);
                                 main_menu();
                             }
+
                         }
                     }
-                    else {
-                        cout << "Can't find the customer with the name provided\nPlease try again !" << endl;
-                        Sleep(2000);
-                        main_menu();
-                    }
                 }
-                date today_date = getCurrentDate();
-                movies[i].due_Date.day = today_date.day + 7;
-                movies[i].due_Date.month = today_date.month;
-                movies[i].due_Date.year = today_date.year;
-                movies[i].is_Rented = true;
-                movies[i].renting_Count++;
-                date validated_date = validate_DueDate(movies[i].due_Date.day, movies[i].due_Date.month, movies[i].due_Date.year);
-                cout << "Movie succesfully rented" << endl;
-                cout << "Due Date :" << validated_date.day << "-" << validated_date.month << "-" << validated_date.year << endl;
+                cout << "Can't rent any movie to this customer as he reached maximum rented please return any movie first" << endl;
                 Sleep(2000);
                 main_menu();
+                
             }
         }
-        else { // movie not found
-            cout << "Movie not found\nRedirecting to main menu" << endl;
-            Sleep(2000);
-            main_menu();
-        }
     }
+    cout << "Can't find the customer with the name provided\nPlease try again !" << endl;
     Sleep(2000);
     main_menu();
 }
@@ -300,7 +300,7 @@ void return_RentedMovies() {
 
         if (movies[i].name == movie_name && movies[i].is_Rented == true) { // movie exists and is rented
 
-            for (int j = 0; j <= customer_count; j++) { // search for the customer rented the movie
+            for (int j = 0; j < customer_count; j++) { // search for the customer rented the movie
 
                 for (int k = 0; k < 6; k++) { // search for the movie in the rented movies
 
@@ -318,12 +318,10 @@ void return_RentedMovies() {
                 }
             }
         }
-        else {
-            cout << "Movie Not Found" << endl;
-            Sleep(2000);
-            main_menu();
-        }
     }
+    cout << "Movie Not Found" << endl;
+    Sleep(2000);
+    main_menu();
 }
 
 
